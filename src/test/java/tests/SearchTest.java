@@ -1,5 +1,6 @@
 package tests;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -21,13 +22,14 @@ import base.BaseTest;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import pages.DashboardPage;
 import pages.SchoolSearchPage;
+import utils.XLUtils;
 
 public class SearchTest extends BaseTest {
 
 	DashboardPage dashboardPage;
 	SchoolSearchPage schoolSearchPage;
 	JavascriptExecutor executor;
-
+	
 	@BeforeMethod
 	public void setup() {
 	
@@ -48,7 +50,7 @@ public class SearchTest extends BaseTest {
 	}
 
 	@Test
-	public void search_schools_by_course_and_cite() throws InterruptedException {
+	public void search_schools_by_course_and_cite() throws InterruptedException, IOException {
 
 		getWebElement(dashboardPage.byBtnSchool).click();
 
@@ -61,11 +63,12 @@ public class SearchTest extends BaseTest {
 
 		driver.switchTo().defaultContent();
 
+		
 		Select selectCourseType = new Select(getWebElement(schoolSearchPage.byDrpCourseType));
-		selectCourseType.selectByValue("1");
-
+		selectCourseType.selectByVisibleText(XLUtils.getCellData("C:\\Users\\LMANTALA\\git\\EduVidya\\Book2.xlsx", "Sheet1", 1, 1));
+		
 		Select selectCity = new Select(getWebElement(schoolSearchPage.byDrpcity));
-		selectCity.selectByValue("2");
+		selectCity.selectByVisibleText((XLUtils.getCellData("C:\\Users\\LMANTALA\\git\\EduVidya\\Book2.xlsx", "Sheet1", 1, 0)).trim());
 
 		getWebElement(schoolSearchPage.byBtnSearch).click();
 
